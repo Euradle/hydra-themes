@@ -1,0 +1,682 @@
+/* ==========================================================
+   BORDEAUX — a wine-red theme for Hydra Launcher
+   Paste into: Settings → Appearance → Themes → Add theme
+   Achievement bubble is styled below (section 'ACHIEVEMENT NOTIFICATION').
+   Its sound can't live in CSS: upload bordeaux-achievement.wav in the
+   theme editor (achievement sound).
+   Look: deep burgundy, gold hairlines, cut-corner panels,
+         slow drifting wave pattern in the background.
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap");
+
+:root,
+:host {
+  --bx-wine-950: #12030a;
+  --bx-wine-900: #1c050f;
+  --bx-wine-800: #2a0816;
+  --bx-wine-700: #3d0b1f;
+  --bx-wine-600: #5a1230;
+  --bx-wine-500: #7b1a3f;
+  --bx-ruby: #b3203f;
+  --bx-ember: #e0384f;
+  --bx-gold: #d9b26a;
+  --bx-gold-dim: rgba(217, 178, 106, 0.28);
+  --bx-text: #f3e4e4;
+  --bx-text-dim: #b99aa3;
+  --bx-cut: 10px; /* corner cut size */
+}
+
+/* ---------- Base ---------- */
+html,
+body {
+  background: radial-gradient(120% 90% at 20% 0%, var(--bx-wine-700) 0%, var(--bx-wine-900) 55%, var(--bx-wine-950) 100%) fixed !important;
+  color: var(--bx-text) !important;
+  font-family: "Rajdhani", "Segoe UI", system-ui, sans-serif !important;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Wavy pattern (two layers, drifting) ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  top: -240px;
+  left: -480px;
+  width: calc(100% + 960px);
+  height: calc(100% + 480px);
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    /* big gold swells */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='480' height='240'><path d='M0 120 Q120 30 240 120 T480 120' fill='none' stroke='%23d9b26a' stroke-opacity='.10' stroke-width='1.6'/><path d='M0 170 Q120 80 240 170 T480 170' fill='none' stroke='%23d9b26a' stroke-opacity='.06' stroke-width='1.2'/></svg>"),
+    /* fine ruby ripples */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='40'><path d='M0 20 Q40 0 80 20 T160 20' fill='none' stroke='%23e0384f' stroke-opacity='.075' stroke-width='1.1'/></svg>");
+  background-repeat: repeat, repeat;
+  animation: bx-drift 70s linear infinite;
+  will-change: transform;
+  mask-image: radial-gradient(130% 100% at 50% 40%, #000 35%, transparent 100%);
+  -webkit-mask-image: radial-gradient(130% 100% at 50% 40%, #000 35%, transparent 100%);
+}
+
+@keyframes bx-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(480px, 240px, 0); }
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+#root,
+main,
+section,
+.container {
+  background: transparent !important;
+}
+
+/* ---------- Title bar ---------- */
+.title-bar {
+  background: linear-gradient(180deg, rgba(18, 3, 10, 0.92), rgba(28, 5, 15, 0.8)) !important;
+  border-bottom: 1px solid var(--bx-gold-dim) !important;
+  backdrop-filter: blur(10px);
+  color: var(--bx-text-dim) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: linear-gradient(180deg, rgba(42, 8, 22, 0.88), rgba(18, 3, 10, 0.94)) !important;
+  border-right: 1px solid var(--bx-gold-dim) !important;
+  box-shadow: 6px 0 40px rgba(0, 0, 0, 0.45), inset -1px 0 0 rgba(224, 56, 79, 0.15);
+  backdrop-filter: blur(14px);
+}
+
+.sidebar a,
+.sidebar button,
+.sidebar li {
+  color: var(--bx-text-dim) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: color 0.18s, background 0.18s, padding-left 0.18s;
+}
+
+.sidebar a:hover,
+.sidebar button:hover,
+.sidebar li:hover {
+  color: var(--bx-text) !important;
+  background: linear-gradient(90deg, rgba(179, 32, 63, 0.35), transparent) !important;
+  padding-left: 14px;
+}
+
+/* active entry: ember bar on the left, like a lit pilot */
+.sidebar a[aria-current="page"],
+.sidebar .active,
+.sidebar [class*="active"] {
+  color: var(--bx-gold) !important;
+  background: linear-gradient(90deg, rgba(179, 32, 63, 0.5), transparent) !important;
+  box-shadow: inset 3px 0 0 var(--bx-ember);
+}
+
+/* ---------- Game tiles (cut corners + gold edge on hover) ---------- */
+.game-item,
+.card,
+[class*="game-card"],
+[class*="catalogue"] a {
+  background: linear-gradient(160deg, rgba(61, 11, 31, 0.8), rgba(28, 5, 15, 0.9)) !important;
+  border: 1px solid rgba(217, 178, 106, 0.14) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    var(--bx-cut) 0, 100% 0, 100% calc(100% - var(--bx-cut)),
+    calc(100% - var(--bx-cut)) 100%, 0 100%, 0 var(--bx-cut)
+  );
+  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s;
+}
+
+.game-item:hover,
+.card:hover,
+[class*="game-card"]:hover,
+[class*="catalogue"] a:hover {
+  transform: translateY(-4px);
+  border-color: var(--bx-gold) !important;
+  filter: drop-shadow(0 8px 18px rgba(224, 56, 79, 0.45)) brightness(1.08);
+}
+
+/* ---------- Home / hero ---------- */
+.home__content,
+.hero {
+  background: transparent !important;
+}
+
+.hero {
+  border: 1px solid var(--bx-gold-dim) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 60px rgba(179, 32, 63, 0.25), inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+h1, h2, h3, h4 {
+  font-family: "Rajdhani", "Segoe UI", sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bx-text) !important;
+}
+
+h2 {
+  border-left: 3px solid var(--bx-ember);
+  padding-left: 10px;
+}
+
+/* ---------- Buttons ---------- */
+button,
+.button,
+[class*="button"] {
+  font-family: "Rajdhani", sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  border-radius: 0 !important;
+}
+
+button[class*="primary"],
+.button--primary,
+[class*="button--primary"] {
+  background: linear-gradient(135deg, var(--bx-ruby), var(--bx-wine-500)) !important;
+  color: #fff !important;
+  border: 1px solid var(--bx-gold) !important;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  box-shadow: 0 0 18px rgba(224, 56, 79, 0.35);
+}
+
+button[class*="primary"]:hover,
+.button--primary:hover,
+[class*="button--primary"]:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 28px rgba(224, 56, 79, 0.6);
+}
+
+/* ---------- Inputs ---------- */
+input,
+textarea,
+select {
+  background: rgba(18, 3, 10, 0.75) !important;
+  color: var(--bx-text) !important;
+  border: 1px solid var(--bx-gold-dim) !important;
+  border-radius: 0 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: var(--bx-ember) !important;
+  box-shadow: 0 0 0 2px rgba(224, 56, 79, 0.25);
+}
+
+/* ---------- Bottom panel (downloads bar) ---------- */
+.bottom-panel {
+  background: linear-gradient(0deg, rgba(18, 3, 10, 0.96), rgba(42, 8, 22, 0.85)) !important;
+  border-top: 1px solid var(--bx-gold-dim) !important;
+  backdrop-filter: blur(10px);
+  color: var(--bx-text-dim) !important;
+}
+
+/* ---------- Progress bars ---------- */
+progress,
+[class*="progress"] {
+  accent-color: var(--bx-ember);
+}
+
+/* ---------- Modals / menus ---------- */
+[class*="modal"],
+[class*="dropdown"],
+[class*="context-menu"] {
+  background: rgba(28, 5, 15, 0.96) !important;
+  border: 1px solid var(--bx-gold-dim) !important;
+  border-radius: 0 !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bx-wine-950); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--bx-wine-500), var(--bx-ruby));
+  border: 1px solid var(--bx-wine-950);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--bx-ember); }
+
+::selection { background: var(--bx-ruby); color: #fff; }
+
+
+/* ==========================================================
+   GAME PAGE — same wine / gold / cut-corner language
+   ========================================================== */
+.game-details__wrapper,
+.game-details__container {
+  background: transparent !important;
+}
+
+/* cover art sits inside the wine palette */
+[class*="hero-backdrop"] {
+  background: linear-gradient(
+    0deg,
+    rgba(24, 4, 13, 0.97) 4%,
+    rgba(90, 18, 48, 0.38) 55%,
+    rgba(18, 3, 10, 0.55) 100%
+  ) !important;
+}
+
+[class*="game-details__hero"] {
+  border-bottom: 1px solid var(--bx-gold-dim);
+}
+
+/* content area: wine glass instead of flat grey, with a rippling wave edge */
+.game-details__description-container {
+  position: relative;
+  background: linear-gradient(180deg, rgba(42, 8, 22, 0.55), rgba(18, 3, 10, 0.88)) !important;
+  border-top: 1px solid var(--bx-gold-dim);
+  padding-top: 38px !important;
+}
+
+.game-details__description-container::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 22px;
+  pointer-events: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='22'><path d='M0 11 Q40 -3 80 11 T160 11' fill='none' stroke='%23d9b26a' stroke-opacity='.55' stroke-width='1.4'/><path d='M0 17 Q40 3 80 17 T160 17' fill='none' stroke='%23e0384f' stroke-opacity='.35' stroke-width='1'/></svg>") repeat-x;
+  animation: bx-ripple 9s linear infinite;
+}
+
+@keyframes bx-ripple {
+  to { background-position: 160px 0; }
+}
+
+.game-details__description {
+  color: #ecd9dd !important;
+}
+
+.game-details__description a {
+  color: var(--bx-gold) !important;
+}
+
+.game-details__description img,
+.game-details__description video {
+  border-radius: 0 !important;
+  border: 1px solid rgba(217, 178, 106, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.game-details__description--collapsed::after {
+  background: linear-gradient(transparent, rgba(24, 4, 13, 0.98)) !important;
+}
+
+.game-details__description-toggle {
+  border: 1px solid var(--bx-gold) !important;
+  color: var(--bx-gold) !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+
+.game-details__description-toggle:hover {
+  background: rgba(179, 32, 63, 0.35) !important;
+  color: #fff !important;
+}
+
+[class*="description-header"] {
+  border-bottom: 1px solid var(--bx-gold-dim) !important;
+}
+
+/* sticky action bar (play / download) */
+.hero-panel {
+  background: linear-gradient(100deg, rgba(90, 18, 48, 0.8), rgba(28, 5, 15, 0.9)) !important;
+  border: 1px solid var(--bx-gold-dim) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: none !important;
+}
+
+.hero-panel--stuck {
+  background: linear-gradient(100deg, rgba(110, 22, 58, 0.9), rgba(24, 4, 13, 0.95)) !important;
+}
+
+.hero-panel__content p {
+  color: var(--bx-text-dim) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero-panel__content p:first-child {
+  color: var(--bx-gold) !important;
+}
+
+.hero-panel__progress-bar::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--bx-ruby), var(--bx-ember)) !important;
+}
+
+.hero-panel__progress-bar::-webkit-progress-bar {
+  background: rgba(0, 0, 0, 0.35) !important;
+}
+
+/* right-hand info column */
+.content-sidebar {
+  background: linear-gradient(180deg, rgba(42, 8, 22, 0.88), rgba(18, 3, 10, 0.94)) !important;
+  border: 1px solid var(--bx-gold-dim) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  backdrop-filter: blur(12px);
+}
+
+.content-sidebar [class*="section"],
+.content-sidebar [class*="stats"] {
+  background: rgba(18, 3, 10, 0.4) !important;
+  border-color: rgba(217, 178, 106, 0.14) !important;
+  border-radius: 0 !important;
+}
+
+.content-sidebar h2,
+.content-sidebar h3,
+.content-sidebar [class*="title"] {
+  color: var(--bx-gold) !important;
+  border-left: 3px solid var(--bx-ember);
+  padding-left: 8px;
+}
+
+/* screenshots / trailer strip */
+[class*="gallery-slider"] img,
+[class*="gallery-slider"] video,
+[class*="gallery-slider"] button {
+  border-radius: 0 !important;
+}
+
+[class*="gallery-slider__preview"] {
+  border: 1px solid rgba(217, 178, 106, 0.2) !important;
+  transition: border-color 0.2s, filter 0.2s;
+}
+
+[class*="gallery-slider__preview"]:hover,
+[class*="gallery-slider__preview--active"] {
+  border-color: var(--bx-gold) !important;
+  filter: drop-shadow(0 0 10px rgba(224, 56, 79, 0.5));
+}
+
+/* reviews */
+[class*="review-item"],
+[class*="review-prompt-banner"] {
+  background: linear-gradient(160deg, rgba(61, 11, 31, 0.7), rgba(24, 4, 13, 0.85)) !important;
+  border: 1px solid rgba(217, 178, 106, 0.16) !important;
+  border-radius: 0 !important;
+}
+
+/* loading skeletons in wine */
+.react-loading-skeleton {
+  background: linear-gradient(90deg, #2a0816 25%, #4a0f28 50%, #2a0816 75%) !important;
+  background-size: 200% 100% !important;
+}
+
+/* ==========================================================
+   CATALOGUE — right-hand filter column
+   ========================================================== */
+[class*="catalogue__filters"],
+[class*="filters-container"] {
+  background: linear-gradient(180deg, rgba(42, 8, 22, 0.9), rgba(18, 3, 10, 0.95)) !important;
+  border-left: 1px solid var(--bx-gold-dim) !important;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(14px);
+}
+
+[class*="filter-section"] {
+  border-color: rgba(217, 178, 106, 0.14) !important;
+}
+
+[class*="filter-section"] h2,
+[class*="filter-section"] h3,
+[class*="filter-section"] [class*="title"] {
+  color: var(--bx-gold) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+[class*="filter-item"],
+[class*="catalogue"] [class*="chip"] {
+  border-radius: 0 !important;
+  color: var(--bx-text-dim) !important;
+  transition: color 0.18s, background 0.18s;
+}
+
+[class*="filter-item"]:hover {
+  color: var(--bx-text) !important;
+  background: linear-gradient(90deg, rgba(179, 32, 63, 0.35), transparent) !important;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--bx-ember);
+}
+
+/* ==========================================================
+   ACHIEVEMENT NOTIFICATION
+   Hydra renders this in its own window, so colors are literal
+   (no var()) to survive the shadow-DOM boundary.
+   Works for Default / Rare / Platinum / Hidden variants.
+   ========================================================== */
+.achievement-notification {
+  filter: drop-shadow(0 6px 18px rgba(224, 56, 79, 0.5));
+  font-family: "Rajdhani", "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.achievement-notification__outer-container {
+  border: 1px solid #d9b26a !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+.achievement-notification__container {
+  background: linear-gradient(160deg, #4b0e26 0%, #24060f 100%) !important;
+}
+
+/* gold sheen sweep once the bubble has expanded */
+.achievement-notification__outer-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(217, 178, 106, 0.28), transparent);
+  transform: skewX(-18deg);
+  animation: bx-sheen 1100ms ease-out 1350ms both;
+}
+
+@keyframes bx-sheen {
+  from { left: -60%; }
+  to   { left: 130%; }
+}
+
+/* the signature: a wave of wine running along the bottom edge */
+.achievement-notification__outer-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+  height: 8px;
+  z-index: 3;
+  pointer-events: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='8'><path d='M0 4 Q10 -2 20 4 T40 4 V8 H0z' fill='%23e0384f' fill-opacity='.85'/></svg>") repeat-x;
+  animation: bx-tide 2.4s linear infinite;
+}
+
+@keyframes bx-tide {
+  to { transform: translateX(-40px); }
+}
+
+.achievement-notification__icon {
+  border-radius: 0 !important;
+  outline: 1px solid #d9b26a;
+  box-shadow: 0 0 12px rgba(217, 178, 106, 0.3);
+}
+
+.achievement-notification__dark-overlay {
+  background: #12030a !important;
+}
+
+.achievement-notification__trophy-overlay {
+  background: #d9b26a !important;
+}
+
+.achievement-notification__title {
+  color: #d9b26a !important;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.achievement-notification__description {
+  color: #f3e4e4 !important;
+}
+
+.achievement-notification__chip {
+  background: linear-gradient(135deg, #b3203f, #7b1a3f) !important;
+  border: 1px solid #d9b26a;
+  border-radius: 0 !important;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.achievement-notification__chip__label {
+  color: #fff !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.achievement-notification__chip__icon path {
+  fill: #fff !important;
+}
+
+/* RARE: rosé — soft pink glow over the wine */
+.achievement-notification--rare .achievement-notification__outer-container {
+  border-color: #f4a6bd !important;
+}
+
+.achievement-notification--rare .achievement-notification__container {
+  background: linear-gradient(160deg, #6b1d3f 0%, #2e0a1a 62%, #4a1230 130%) !important;
+}
+
+.achievement-notification--rare .achievement-notification__icon {
+  outline-color: #f4a6bd;
+  box-shadow: 0 0 16px rgba(244, 166, 189, 0.55);
+}
+
+.achievement-notification--rare .achievement-notification__trophy-overlay {
+  background: linear-gradient(118deg, #ffd1de, #f4a6bd 45%, #d9708f) !important;
+}
+
+.achievement-notification--rare .achievement-notification__title {
+  color: #f9c0d1 !important;
+}
+
+.achievement-notification--rare .achievement-notification__chip {
+  background: linear-gradient(135deg, #f4a6bd, #c4577a) !important;
+  border-color: #ffd1de;
+}
+
+.achievement-notification--rare .achievement-notification__chip__label {
+  color: #3a0b1c !important;
+}
+
+.achievement-notification--rare .achievement-notification__chip__icon path {
+  fill: #3a0b1c !important;
+}
+
+/* PLATINUM: full gold — richer and brighter than the default accents */
+.achievement-notification--platinum .achievement-notification__outer-container {
+  border-color: #ffd978 !important;
+}
+
+.achievement-notification--platinum .achievement-notification__container {
+  background: linear-gradient(94deg, #24060f -25%, #6e4f17 68%, #b8892f 125%) !important;
+}
+
+.achievement-notification--platinum .achievement-notification__icon {
+  outline-color: #ffd978;
+  box-shadow: 0 0 20px rgba(255, 217, 120, 0.6);
+}
+
+.achievement-notification--platinum .achievement-notification__trophy-overlay {
+  background: linear-gradient(118deg, #fff0b8, #ffd978 40%, #c8963a 70%, #ffd978) !important;
+}
+
+.achievement-notification--platinum .achievement-notification__title {
+  color: #ffe9a8 !important;
+}
+
+.achievement-notification--platinum .achievement-notification__chip {
+  background: linear-gradient(135deg, #ffe08a, #b8892f) !important;
+  border-color: #fff0b8;
+}
+
+.achievement-notification--platinum .achievement-notification__chip__label {
+  color: #2a0816 !important;
+}
+
+.achievement-notification--platinum .achievement-notification__chip__icon path {
+  fill: #2a0816 !important;
+}
+
+/* HIDDEN: darker, near-black wine, muted gold, no glow */
+.achievement-notification--hidden,
+.achievement-notification:has(.achievement-notification__hidden-icon) {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7));
+}
+
+.achievement-notification--hidden .achievement-notification__outer-container,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__outer-container {
+  border-color: #5c4a2a !important;
+}
+
+.achievement-notification--hidden .achievement-notification__container,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__container {
+  background: linear-gradient(160deg, #1a0510 0%, #07010a 100%) !important;
+}
+
+.achievement-notification--hidden .achievement-notification__icon,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__icon {
+  outline-color: rgba(217, 178, 106, 0.3);
+  box-shadow: none;
+  filter: brightness(0.75);
+}
+
+.achievement-notification--hidden .achievement-notification__title,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__title {
+  color: #9a7f86 !important;
+}
+
+.achievement-notification--hidden .achievement-notification__description,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__description {
+  color: #b99aa3 !important;
+}
+
+.achievement-notification--hidden .achievement-notification__chip,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__chip {
+  background: linear-gradient(135deg, #3d0b1f, #1a0510) !important;
+  border-color: #5c4a2a;
+}
+
+.achievement-notification--hidden .achievement-notification__outer-container::after,
+.achievement-notification:has(.achievement-notification__hidden-icon) .achievement-notification__outer-container::after {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='8'><path d='M0 4 Q10 -2 20 4 T40 4 V8 H0z' fill='%237b1a3f' fill-opacity='.7'/></svg>") repeat-x;
+}
