@@ -1,13 +1,3 @@
-/* ==========================================================
-   BORDEAUX — a wine-red theme for Hydra Launcher
-   Paste into: Settings → Appearance → Themes → Add theme
-   Achievement bubble is styled below (section 'ACHIEVEMENT NOTIFICATION').
-   Its sound can't live in CSS: upload bordeaux-achievement.wav in the
-   theme editor (achievement sound).
-   Look: deep burgundy, gold hairlines, cut-corner panels,
-         slow drifting wave pattern in the background.
-   ========================================================== */
-
 @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap");
 
 :root,
@@ -27,7 +17,6 @@
   --bx-cut: 10px; /* corner cut size */
 }
 
-/* ---------- Base ---------- */
 html,
 body {
   background: radial-gradient(120% 90% at 20% 0%, var(--bx-wine-700) 0%, var(--bx-wine-900) 55%, var(--bx-wine-950) 100%) fixed !important;
@@ -36,7 +25,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* ---------- Wavy pattern (two layers, drifting) ---------- */
 body::before {
   content: "";
   position: fixed;
@@ -47,9 +35,7 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* big gold swells */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='480' height='240'><path d='M0 120 Q120 30 240 120 T480 120' fill='none' stroke='%23d9b26a' stroke-opacity='.10' stroke-width='1.6'/><path d='M0 170 Q120 80 240 170 T480 170' fill='none' stroke='%23d9b26a' stroke-opacity='.06' stroke-width='1.2'/></svg>"),
-    /* fine ruby ripples */
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='40'><path d='M0 20 Q40 0 80 20 T160 20' fill='none' stroke='%23e0384f' stroke-opacity='.075' stroke-width='1.1'/></svg>");
   background-repeat: repeat, repeat;
   animation: bx-drift 70s linear infinite;
@@ -74,8 +60,6 @@ section,
 .container {
   background: transparent !important;
 }
-
-/* ---------- Title bar ---------- */
 .title-bar {
   background: linear-gradient(180deg, rgba(18, 3, 10, 0.92), rgba(28, 5, 15, 0.8)) !important;
   border-bottom: 1px solid var(--bx-gold-dim) !important;
@@ -85,8 +69,6 @@ section,
   letter-spacing: 0.18em;
   font-weight: 600;
 }
-
-/* ---------- Sidebar ---------- */
 .sidebar {
   background: linear-gradient(180deg, rgba(42, 8, 22, 0.88), rgba(18, 3, 10, 0.94)) !important;
   border-right: 1px solid var(--bx-gold-dim) !important;
@@ -111,8 +93,6 @@ section,
   background: linear-gradient(90deg, rgba(179, 32, 63, 0.35), transparent) !important;
   padding-left: 14px;
 }
-
-/* active entry: ember bar on the left, like a lit pilot */
 .sidebar a[aria-current="page"],
 .sidebar .active,
 .sidebar [class*="active"] {
@@ -120,8 +100,6 @@ section,
   background: linear-gradient(90deg, rgba(179, 32, 63, 0.5), transparent) !important;
   box-shadow: inset 3px 0 0 var(--bx-ember);
 }
-
-/* ---------- Game tiles (cut corners + gold edge on hover) ---------- */
 .game-item,
 .card,
 [class*="game-card"],
@@ -144,8 +122,6 @@ section,
   border-color: var(--bx-gold) !important;
   filter: drop-shadow(0 8px 18px rgba(224, 56, 79, 0.45)) brightness(1.08);
 }
-
-/* ---------- Home / hero ---------- */
 .home__content,
 .hero {
   background: transparent !important;
@@ -169,7 +145,6 @@ h2 {
   padding-left: 10px;
 }
 
-/* ---------- Buttons ---------- */
 button,
 .button,
 [class*="button"] {
@@ -197,7 +172,6 @@ button[class*="primary"]:hover,
   box-shadow: 0 0 28px rgba(224, 56, 79, 0.6);
 }
 
-/* ---------- Inputs ---------- */
 input,
 textarea,
 select {
@@ -215,7 +189,6 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(224, 56, 79, 0.25);
 }
 
-/* ---------- Bottom panel (downloads bar) ---------- */
 .bottom-panel {
   background: linear-gradient(0deg, rgba(18, 3, 10, 0.96), rgba(42, 8, 22, 0.85)) !important;
   border-top: 1px solid var(--bx-gold-dim) !important;
@@ -223,13 +196,11 @@ select:focus {
   color: var(--bx-text-dim) !important;
 }
 
-/* ---------- Progress bars ---------- */
 progress,
 [class*="progress"] {
   accent-color: var(--bx-ember);
 }
 
-/* ---------- Modals / menus ---------- */
 [class*="modal"],
 [class*="dropdown"],
 [class*="context-menu"] {
@@ -240,7 +211,6 @@ progress,
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* ---------- Scrollbars ---------- */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--bx-wine-950); }
 ::-webkit-scrollbar-thumb {
@@ -251,16 +221,11 @@ progress,
 
 ::selection { background: var(--bx-ruby); color: #fff; }
 
-
-/* ==========================================================
-   GAME PAGE — same wine / gold / cut-corner language
-   ========================================================== */
 .game-details__wrapper,
 .game-details__container {
   background: transparent !important;
 }
 
-/* cover art sits inside the wine palette */
 [class*="hero-backdrop"] {
   background: linear-gradient(
     0deg,
@@ -274,7 +239,6 @@ progress,
   border-bottom: 1px solid var(--bx-gold-dim);
 }
 
-/* content area: wine glass instead of flat grey, with a rippling wave edge */
 .game-details__description-container {
   position: relative;
   background: linear-gradient(180deg, rgba(42, 8, 22, 0.55), rgba(18, 3, 10, 0.88)) !important;
@@ -336,7 +300,6 @@ progress,
   border-bottom: 1px solid var(--bx-gold-dim) !important;
 }
 
-/* sticky action bar (play / download) */
 .hero-panel {
   background: linear-gradient(100deg, rgba(90, 18, 48, 0.8), rgba(28, 5, 15, 0.9)) !important;
   border: 1px solid var(--bx-gold-dim) !important;
@@ -367,7 +330,6 @@ progress,
   background: rgba(0, 0, 0, 0.35) !important;
 }
 
-/* right-hand info column */
 .content-sidebar {
   background: linear-gradient(180deg, rgba(42, 8, 22, 0.88), rgba(18, 3, 10, 0.94)) !important;
   border: 1px solid var(--bx-gold-dim) !important;
@@ -391,7 +353,6 @@ progress,
   padding-left: 8px;
 }
 
-/* screenshots / trailer strip */
 [class*="gallery-slider"] img,
 [class*="gallery-slider"] video,
 [class*="gallery-slider"] button {
@@ -409,7 +370,6 @@ progress,
   filter: drop-shadow(0 0 10px rgba(224, 56, 79, 0.5));
 }
 
-/* reviews */
 [class*="review-item"],
 [class*="review-prompt-banner"] {
   background: linear-gradient(160deg, rgba(61, 11, 31, 0.7), rgba(24, 4, 13, 0.85)) !important;
@@ -417,15 +377,11 @@ progress,
   border-radius: 0 !important;
 }
 
-/* loading skeletons in wine */
 .react-loading-skeleton {
   background: linear-gradient(90deg, #2a0816 25%, #4a0f28 50%, #2a0816 75%) !important;
   background-size: 200% 100% !important;
 }
 
-/* ==========================================================
-   CATALOGUE — right-hand filter column
-   ========================================================== */
 [class*="catalogue__filters"],
 [class*="filters-container"] {
   background: linear-gradient(180deg, rgba(42, 8, 22, 0.9), rgba(18, 3, 10, 0.95)) !important;
@@ -464,12 +420,6 @@ input[type="range"] {
   accent-color: var(--bx-ember);
 }
 
-/* ==========================================================
-   ACHIEVEMENT NOTIFICATION
-   Hydra renders this in its own window, so colors are literal
-   (no var()) to survive the shadow-DOM boundary.
-   Works for Default / Rare / Platinum / Hidden variants.
-   ========================================================== */
 .achievement-notification {
   filter: drop-shadow(0 6px 18px rgba(224, 56, 79, 0.5));
   font-family: "Rajdhani", "Segoe UI", system-ui, sans-serif;
@@ -486,8 +436,6 @@ input[type="range"] {
 .achievement-notification__container {
   background: linear-gradient(160deg, #4b0e26 0%, #24060f 100%) !important;
 }
-
-/* gold sheen sweep once the bubble has expanded */
 .achievement-notification__outer-container::before {
   content: "";
   position: absolute;
@@ -506,8 +454,6 @@ input[type="range"] {
   from { left: -60%; }
   to   { left: 130%; }
 }
-
-/* the signature: a wave of wine running along the bottom edge */
 .achievement-notification__outer-container::after {
   content: "";
   position: absolute;
@@ -567,7 +513,6 @@ input[type="range"] {
   fill: #fff !important;
 }
 
-/* RARE: rosé — soft pink glow over the wine */
 .achievement-notification--rare .achievement-notification__outer-container {
   border-color: #f4a6bd !important;
 }
@@ -602,7 +547,6 @@ input[type="range"] {
   fill: #3a0b1c !important;
 }
 
-/* PLATINUM: full gold — richer and brighter than the default accents */
 .achievement-notification--platinum .achievement-notification__outer-container {
   border-color: #ffd978 !important;
 }
@@ -637,7 +581,6 @@ input[type="range"] {
   fill: #2a0816 !important;
 }
 
-/* HIDDEN: darker, near-black wine, muted gold, no glow */
 .achievement-notification--hidden,
 .achievement-notification:has(.achievement-notification__hidden-icon) {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7));
